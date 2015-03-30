@@ -31,7 +31,7 @@ class IntegerField(Field):
 		super(IntegerField, self).__init__(name, 'bigint')
 		self.arg = arg
 		
-class ModeMetaclass(type):
+class ModelMetaclass(type):
 	def __new__(cls, name, bases, attrs):
 		if name=='Model':
 			return type.__new__(cls, name, bases, attrs)
@@ -47,9 +47,12 @@ class ModeMetaclass(type):
 		return type.__new__(cls, name, bases, attrs)
 
 class Model(dict):
-	__metaclass__ = ModeMetaclass
+	__metaclass__ = ModelMetaclass
 
-	def __getattr(self, key):
+	def __init__():
+		super(Model, self).__init__(**kw)
+
+	def __getattr__(self, key):
 		try:
 			return self[key]
 		except KeyError:
@@ -70,4 +73,3 @@ class Model(dict):
 		print('SQL: %s' % sql)
 		print('ARGS: %s' % str(args))
 
-		
