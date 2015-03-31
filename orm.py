@@ -1,17 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# class User(Model):
-# 	# 定义类的属性到列的映射
-# 	id = IntegerField('id')
-# 	name = StringField('username')
-# 	email = StringField('email')
-# 	password = StringField('password')
-
-# # 创建一个实例:
-# u = User(id=12345, name='Micheal', email='test@orm.org', password='my-pwd')
-# # 保存到数据库:
-# u.save()
+' Simple ORM using metaclass '
 
 class Field(object):
 	def __init__(self, name, column_type):
@@ -22,14 +12,13 @@ class Field(object):
 
 class StringField(Field):
 	"""docstring for StringField"""
-		def __init__(self, name):
-			super(StringField, self).__init__(name, 'varchar(100)')
+	def __init__(self, name):
+		super(StringField, self).__init__(name, 'varchar(100)')
 
 class IntegerField(Field):
 	"""docstring for Inter"""
 	def __init__(self, name):
 		super(IntegerField, self).__init__(name, 'bigint')
-		self.arg = arg
 		
 class ModelMetaclass(type):
 	def __new__(cls, name, bases, attrs):
@@ -49,7 +38,7 @@ class ModelMetaclass(type):
 class Model(dict):
 	__metaclass__ = ModelMetaclass
 
-	def __init__():
+	def __init__(self, **kw):
 		super(Model, self).__init__(**kw)
 
 	def __getattr__(self, key):
@@ -73,3 +62,14 @@ class Model(dict):
 		print('SQL: %s' % sql)
 		print('ARGS: %s' % str(args))
 
+class User(Model):
+	# 定义类的属性到列的映射
+	id = IntegerField('id')
+	name = StringField('username')
+	email = StringField('email')
+	password = StringField('password')
+
+# 创建一个实例:
+u = User(id=12345, name='Micheal', email='test@orm.org', password='my-pwd')
+# 保存到数据库:
+u.save()
